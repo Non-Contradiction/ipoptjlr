@@ -43,7 +43,7 @@ function IPOPT(
     jac_g1, jac_g2,             # Callback: Jacobian evaluation
     h1, h2                      # Callback: Hessian evaluation
     )
-    
+
     prob = createProblem(length(x), x_L, x_U, length(g_L), g_L, g_U, length(jac_g1()[1]), length(h1()[1]),
         eval_f, xy(eval_g), xy(eval_grad_f), jac_g(jac_g1, jac_g2), h(h1, h2))
     prob.x = x

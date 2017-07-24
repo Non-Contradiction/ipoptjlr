@@ -10,12 +10,32 @@ julia_setup <- function() {
         sub("/bin", "/include/julia", .julia$bin_dir)
     .julia$cppargs <- paste0("-I ", .julia$include_dir)
 
-    .julia$init <- inline::cfunction(
-        sig = c(dir = "character"),
-        body = "jl_init(CHAR(STRING_ELT(dir, 0))); return R_NilValue;",
-        includes = "#include <julia.h>",
-        cppargs = .julia$cppargs
-    )
+    .julia$VERSION <- system("julia -E 'println(VERSION)'", intern = TRUE)[1]
+
+    if (.julia$VERSION < "0.6.0") {
+        .julia$init <- inline::cfunction(
+            sig = c(dir = "character"),
+            body = "jl_init(CHAR(STRING_ELT(dir, 0))); return R_NilValue;",
+            includes = "#include <julia.h>",
+            cppargs = .julia$cppargs
+        )
+
+        message("Julia initiation...")
+
+        .julia$init(.julia$bin_dir)
+    }
+    if (.julia$VERSION >= "0.6.0") {
+        .julia$init <- inline::cfunction(
+            sig = c(),
+            body = "jl_init(); return R_NilValue;",
+            includes = "#include <julia.h>",
+            cppargs = .julia$cppargs
+        )
+
+        message("Julia initiation...")
+
+        .julia$init()
+    }
 
     .julia$cmd <- inline::cfunction(
         sig = c(cmd = "character"),
@@ -49,11 +69,7 @@ julia_setup <- function() {
         .julia$eval2(paste0("unsafe_load(RObject(", cmd, ").p)"))
     }
 
-    message("Julia initiation...")
-
-    .julia$init(.julia$bin_dir)
-
-    reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
+    # reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
 
     .julia$using("RCall")
 
