@@ -69,7 +69,7 @@ julia_setup <- function() {
         .julia$eval2(paste0("unsafe_load(RObject(", cmd, ").p)"))
     }
 
-    # reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
+    reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
 
     .julia$using("RCall")
 
