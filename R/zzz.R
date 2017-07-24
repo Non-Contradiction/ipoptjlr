@@ -49,6 +49,13 @@ julia_setup <- function() {
         .julia$eval2(paste0("unsafe_load(RObject(", cmd, ").p)"))
     }
 
+    message("Julia initiation...")
+
     .julia$init(.julia$bin_dir)
+
+    reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
+
     .julia$using("RCall")
+
+    #.julia$evals <- .julia$get_function("function(x)eval(parse(x)) end")
 }
