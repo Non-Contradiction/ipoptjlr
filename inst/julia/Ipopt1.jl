@@ -222,8 +222,8 @@ function transfer(x)
     rcopy(RObject(x))
 end
 
-r = RObject(createProblem2)(RObject([1.0, 5.0, 5.0, 1.0]), RObject(x_L), RObject(x_U), RObject(m), RObject(g_L), RObject(g_U), RObject(8), RObject(10),
-   RObject(eval_f), RObject(eval_g), RObject(eval_grad_f), RObject(jac_g1), RObject(jac_g2), RObject(h1), RObject(h2))
+r = createProblem2(transfer([1.0, 5.0, 5.0, 1.0]), transfer(x_L), transfer(x_U), transfer(m), transfer(g_L), transfer(g_U), transfer(8), transfer(10),
+   transfer(eval_f), transfer(eval_g), transfer(eval_grad_f), transfer(jac_g1), transfer(jac_g2), transfer(h1), transfer(h2))
 
 #
 # r = createProblem2([1.0, 5.0, 5.0, 1.0], transfer(x_L), transfer(x_U), Int64(transfer(m)), transfer(g_L), transfer(g_U), Int64(transfer(8)), Int64(transfer(10)),
