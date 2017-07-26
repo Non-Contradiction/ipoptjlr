@@ -66,12 +66,15 @@ julia_setup <- function() {
     )
 
     .julia$get_function <- function(cmd) {
-        .julia$eval2(paste0("unsafe_load(RObject(", cmd, ").p)"))
+        .julia$cmd(paste0("push!(Rlist, RObject(", cmd, "))"))
+        .julia$eval2(paste0("unsafe_load(last(Rlist).p)"))
     }
 
     reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
 
     .julia$using("RCall")
+
+    .julia$cmd("Rlist = []")
 
     #.julia$evals <- .julia$get_function("function(x)eval(parse(x)) end")
 }
