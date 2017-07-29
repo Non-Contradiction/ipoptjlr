@@ -19,7 +19,6 @@ wrap <- inline::cfunction(
 wrap_realsxp <- inline::cfunction(
     sig = c(func_name = "character", arg = "SEXP"),
     body = '
-    jl_gc_enable(0);
     jl_function_t *wrap = (jl_function_t*)(jl_eval_string("wrap"));
     jl_value_t *func = jl_eval_string(CHAR(STRING_ELT(func_name, 0)));
     jl_value_t *arg1 = jl_box_int64((uintptr_t)(arg));

@@ -52,5 +52,5 @@ function IPOPT(
     prob.x = x
     status = solveProblem(prob)
 
-    prob.obj_val
+    prob.x
 end
