@@ -52,17 +52,24 @@ julia_setup <- function() {
         .julia$cmd(paste0('Pkg.add("', pkg_name, '")'))
     }
 
-    .julia$install_packages <- Vectorize(.julia$install_package)
+    .julia$install_package_if_needed <- function(pkg_name) {
+        .julia$cmd(paste0('if Pkg.installed("', pkg_name, '") == nothing Pkg.add("', pkg_name, '") end'))
+    }
 
     .julia$using <- function(pkg) {
         .julia$cmd(paste0("using ", pkg))
+    }
+
+    .julia$using1 <- function(pkg) {
+        .julia$install_package_if_needed(pkg)
+        .julia$using(pkg)
     }
 
     reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
 
     # .julia$cmd("gc_enable(false)")
 
-    .julia$using("RCall")
+    .julia$using1("RCall")
 
     .julia$cmd("function transfer_list(x) rcopy(RObject(Ptr{RCall.VecSxp}(x))) end")
     # .julia$cmd("function wrap(f, x) xx = transfer_list(x); f(xx...) end")

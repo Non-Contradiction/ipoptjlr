@@ -1,3 +1,5 @@
+if Pkg.installed("Ipopt") == nothing Pkg.add("Ipopt") end
+
 using Ipopt
 
 function xy(f)
