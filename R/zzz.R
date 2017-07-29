@@ -8,7 +8,7 @@ julia_setup <- function() {
     .julia$dll <- dyn.load(.julia$dll_file, FALSE, TRUE)
     .julia$include_dir <-
         sub("/bin", "/include/julia", .julia$bin_dir)
-    .julia$cppargs <- paste0("-I ", .julia$include_dir)
+    .julia$cppargs <- paste0("-I ", .julia$include_dir, " -DJULIA_ENABLE_THREADING=1")
 
     .julia$VERSION <- system("julia -E 'println(VERSION)'", intern = TRUE)[1]
 
@@ -58,23 +58,26 @@ julia_setup <- function() {
         .julia$cmd(paste0("using ", pkg))
     }
 
-    .julia$eval2 <- inline::cfunction(
-        sig = c(cmd = "character"),
-        body = "return SEXP(jl_eval_string(CHAR(STRING_ELT(cmd, 0)))); ",
-        includes = "#include <julia.h>",
-        cppargs = .julia$cppargs
-    )
+    # .julia$eval2 <- inline::cfunction(
+    #     sig = c(cmd = "character"),
+    #     body = "return SEXP(jl_eval_string(CHAR(STRING_ELT(cmd, 0)))); ",
+    #     includes = "#include <julia.h>",
+    #     cppargs = .julia$cppargs
+    # )
 
-    .julia$get_function <- function(cmd) {
-        .julia$cmd(paste0("push!(Rlist, RObject(", cmd, "))"))
-        .julia$eval2(paste0("unsafe_load(last(Rlist).p)"))
-    }
+    # .julia$get_function <- function(cmd) {
+    #     #.julia$cmd(paste0("push!(Rlist, RObject(", cmd, "))"))
+    #     #.julia$eval2(paste0("unsafe_load(last(Rlist).p)"))
+    #     .julia$eval2(paste0("unsafe_load(RObject(", cmd, ").p)"))
+    # }
 
     reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
 
+    # .julia$cmd("gc_enable(false)")
+
     .julia$using("RCall")
 
-    .julia$cmd("Rlist = []")
+    # .julia$cmd("Rlist = []")
 
-    #.julia$evals <- .julia$get_function("function(x)eval(parse(x)) end")
+    # .julia$eval <- .julia$get_function("function(x)eval(parse(x)) end")
 }
