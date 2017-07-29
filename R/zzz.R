@@ -58,26 +58,38 @@ julia_setup <- function() {
         .julia$cmd(paste0("using ", pkg))
     }
 
-    # .julia$eval2 <- inline::cfunction(
-    #     sig = c(cmd = "character"),
-    #     body = "return SEXP(jl_eval_string(CHAR(STRING_ELT(cmd, 0)))); ",
-    #     includes = "#include <julia.h>",
-    #     cppargs = .julia$cppargs
-    # )
-
-    # .julia$get_function <- function(cmd) {
-    #     #.julia$cmd(paste0("push!(Rlist, RObject(", cmd, "))"))
-    #     #.julia$eval2(paste0("unsafe_load(last(Rlist).p)"))
-    #     .julia$eval2(paste0("unsafe_load(RObject(", cmd, ").p)"))
-    # }
-
     reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
 
     # .julia$cmd("gc_enable(false)")
 
     .julia$using("RCall")
 
-    # .julia$cmd("Rlist = []")
+    .julia$cmd("function transfer_list(x) rcopy(RObject(Ptr{RCall.VecSxp}(x))) end")
+    # .julia$cmd("function wrap(f, x) xx = transfer_list(x); f(xx...) end")
+    .julia$cmd("function wrap_all(f, x) xx = transfer_list(x); Int64(RObject(f(xx...)).p) end")
 
-    # .julia$eval <- .julia$get_function("function(x)eval(parse(x)) end")
+    # .julia$wrap <- inline::cfunction(
+    #     sig = c(func_name = "character", arg = "SEXP"),
+    #     body = '
+    #     jl_function_t *wrap = (jl_function_t*)(jl_eval_string("wrap"));
+    #     jl_value_t *func = jl_eval_string(CHAR(STRING_ELT(func_name, 0)));
+    #     jl_value_t *arg1 = jl_box_int64((uintptr_t)(arg));
+    #     jl_call2(wrap, func, arg1);
+    #     return R_NilValue;',
+    #     includes = "#include <julia.h>",
+    #     cppargs = .julia$cppargs
+    #     )
+
+    .julia$wrap_all <- inline::cfunction(
+        sig = c(func_name = "character", arg = "SEXP"),
+        body = '
+        jl_function_t *wrap = (jl_function_t*)(jl_eval_string("wrap_all"));
+        jl_value_t *func = jl_eval_string(CHAR(STRING_ELT(func_name, 0)));
+        jl_value_t *arg1 = jl_box_int64((uintptr_t)(arg));
+        SEXP out = PROTECT((SEXP)jl_unbox_int64(jl_call2(wrap, func, arg1)));
+        UNPROTECT(1);
+        return out;',
+        includes = "#include <julia.h>",
+        cppargs = .julia$cppargs
+        )
 }

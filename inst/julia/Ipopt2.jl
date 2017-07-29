@@ -1,5 +1,4 @@
 using Ipopt
-using RCall
 
 function xy(f)
     function ff(x, y)
@@ -52,5 +51,5 @@ function IPOPT(
     prob.x = x
     status = solveProblem(prob)
 
-    prob.x
+    [Ipopt.ApplicationReturnStatus[status], prob.x, prob.obj_val]
 end
