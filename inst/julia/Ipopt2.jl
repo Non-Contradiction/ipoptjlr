@@ -55,5 +55,7 @@ function IPOPT(
     # Solve
     status = solveProblem(prob)
 
-    [Ipopt.ApplicationReturnStatus[status], prob.x, prob.obj_val]
+    Dict(:status => Ipopt.ApplicationReturnStatus[status],
+         :x => prob.x,
+         :value => prob.obj_val)
 end
