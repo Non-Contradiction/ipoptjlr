@@ -1,0 +1,17 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+r:
+  - oldrel
+  - release
+  - devel
+before_install:
+  - sudo add-apt-repository ppa:staticfloat/juliareleases
+  - sudo add-apt-repository ppa:staticfloat/julia-deps
+  - sudo apt-get update
+  - sudo apt-get install julia
+script:
+- R CMD build .
+- R CMD check *tar.gz
+sudo: false
+cache: packages

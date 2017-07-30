@@ -3,6 +3,8 @@
 R Interface for Interior Point OPTimizer (IPOPT)
 ================================================
 
+[![Travis-CI Build Status](https://travis-ci.org/Non-Contradiction/ipoptjlr.svg?branch=master)](https://travis-ci.org/Non-Contradiction/ipoptjlr)
+
 Package `ipoptjlr` is an R interface to the Ipopt nonlinear solver. It provides a simple high-level wrapper for 'Julia' package 'Ipopt.jl' (see <https://github.com/JuliaOpt/Ipopt.jl> for more information).
 
 Installation
