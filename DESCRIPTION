@@ -8,7 +8,7 @@ Description: Package ipoptjlr is an R interface to the Ipopt nonlinear solver.
     It provides a simple high-level wrapper for
     'Julia' package 'Ipopt.jl' (see <https://github.com/JuliaOpt/Ipopt.jl> for
     more information).
-License: MIT | file LICENSE
+License: MIT + file LICENSE
 URL: https://github.com/Non-Contradiction/ipoptjlr
 BugReports: https://github.com/Non-Contradiction/ipoptjlr/issues
 Encoding: UTF-8
@@ -17,3 +17,4 @@ Suggests: testthat
 Imports: inline,
     readr
 SystemRequirements: Julia >= 0.5.0, RCall.jl, Ipopt.jl
+RoxygenNote: 6.0.1
