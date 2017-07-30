@@ -1,3 +1,5 @@
+context("Optimization Problem HS071")
+
 # HS071
 # min x1 * x4 * (x1 + x2 + x3) + x3
 # st  x1 * x2 * x3 * x4 >= 25
@@ -115,4 +117,11 @@ library(ipoptjlr)
 
 setup()
 
-IPOPT(x, x_L, x_U, g_L, g_U, eval_f, eval_g, eval_grad_f, jac_g1, jac_g2, h1, h2)
+r <- IPOPT(x, x_L, x_U, g_L, g_U, eval_f, eval_g, eval_grad_f, jac_g1, jac_g2, h1, h2)
+
+test_that("str_length is number of characters", {
+    expect_named(r, c("status", "value", "x"), ignore.order = TRUE)
+    expect_equal(r$status, "Solve_Succedded")
+    expect_equal(r$x, c(1.000, 4.743, 3.821, 1.379), tolerance = 0.001)
+})
+
