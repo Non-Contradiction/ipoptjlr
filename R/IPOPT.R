@@ -19,5 +19,5 @@ IPOPT <- function(x,
 
 setup <- function() {
     julia_setup()
-    .julia$source(paste0(system.file("julia", package = "ipoptjlr"), "/Ipopt2.jl"))
+    .julia$source(system.file("julia/Ipopt2.jl", package = "ipoptjlr"))
 }
