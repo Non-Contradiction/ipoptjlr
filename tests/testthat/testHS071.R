@@ -1,5 +1,9 @@
 context("Optimization Problem HS071")
 
+skip_on_travis()
+
+skip_on_cran()
+
 # HS071
 # min x1 * x4 * (x1 + x2 + x3) + x3
 # st  x1 * x2 * x3 * x4 >= 25
