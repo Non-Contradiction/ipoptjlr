@@ -1,6 +1,9 @@
 .julia <- new.env(parent = emptyenv())
 
 julia_setup <- function() {
+    libR <- paste0(R.home(), '/lib')
+    system(paste0('export LD_LIBRARY_PATH=', libR, ':$LD_LIBRARY_PATH'))
+
     .julia$bin_dir <-
         system("julia -E 'println(JULIA_HOME)'", intern = TRUE)[1]
     .julia$dll_file <-
