@@ -69,6 +69,8 @@ julia_setup <- function() {
 
     # .julia$cmd("gc_enable(false)")
 
+    .julia$cmd(paste0('ENV["R_HOME"] = "', R.home(), '"'))
+
     .julia$using1("RCall")
 
     .julia$cmd("function transfer_list(x) rcopy(RObject(Ptr{RCall.VecSxp}(x))) end")
