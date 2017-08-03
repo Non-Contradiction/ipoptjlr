@@ -72,7 +72,7 @@ julia_setup <- function() {
 
     # .julia$cmd("gc_enable(false)")
 
-    .julia$cmd("Pkg.update()")
+    # .julia$cmd("Pkg.update()")
 
     .julia$cmd(paste0('ENV["R_HOME"] = "', R.home(), '"'))
 
