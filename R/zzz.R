@@ -1,8 +1,8 @@
 .julia <- new.env(parent = emptyenv())
 
 julia_setup <- function() {
-    libR <- paste0(R.home(), '/lib')
-    system(paste0('export LD_LIBRARY_PATH=', libR, ':$LD_LIBRARY_PATH'))
+    # libR <- paste0(R.home(), '/lib')
+    # system(paste0('export LD_LIBRARY_PATH=', libR, ':$LD_LIBRARY_PATH'))
 
     .julia$bin_dir <-
         system("julia -E 'println(JULIA_HOME)'", intern = TRUE)[1]
@@ -74,12 +74,12 @@ julia_setup <- function() {
 
     # .julia$cmd("Pkg.update()")
 
-    .julia$cmd(paste0('ENV["R_HOME"] = "', R.home(), '"'))
+    # .julia$cmd(paste0('ENV["R_HOME"] = "', R.home(), '"'))
 
     .julia$using1("RCall")
 
     .julia$cmd("function transfer_list(x) rcopy(RObject(Ptr{RCall.VecSxp}(x))) end")
-    # .julia$cmd("function wrap(f, x) xx = transfer_list(x); f(xx...) end")
+    # .julia$cmd("function wrap(f, x) xx = transfer_list(x); println(f(xx...)) end")
     .julia$cmd("function wrap_all(f, x) xx = transfer_list(x); Int64(RObject(f(xx...)).p) end")
 
     # .julia$wrap <- inline::cfunction(
