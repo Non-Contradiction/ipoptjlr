@@ -70,7 +70,7 @@ julia_setup <- function() {
 
     reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
 
-    # .julia$cmd("gc_enable(false)")
+    .julia$cmd("gc_enable(false)")
 
     # .julia$cmd("Pkg.update()")
 
