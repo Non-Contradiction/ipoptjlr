@@ -51,6 +51,7 @@ before_install:
   - ls $(R RHOME)
   - ls $(R RHOME)/lib
   - julia -e 'using RCall'
+  - julia -e 'using Ipopt'
 script:
 - R CMD build .
 - R CMD check *tar.gz
