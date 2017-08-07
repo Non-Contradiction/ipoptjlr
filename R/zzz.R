@@ -1,8 +1,22 @@
 .julia <- new.env(parent = emptyenv())
 
+#' Do initial setup for the JuliaCall package.
+#'
+#' \code{julia_setup} does the initial setup for the JuliaCall package.
+#'
+#' @return The julia interface, which is an environment with the necessary methods
+#'   like cmd, source and things like that to communicate with julia.
+#'
+#' @examples
+#' julia <- julia_setup()
+#' julia$cmd("println(sqrt(2))")
+#' julia$eval_string("sqrt(2)")
+#' julia$call("sqrt", 2)
+#'
+#' @export
 julia_setup <- function() {
-    # libR <- paste0(R.home(), '/lib')
-    # system(paste0('export LD_LIBRARY_PATH=', libR, ':$LD_LIBRARY_PATH'))
+    libR <- paste0(R.home(), '/lib')
+    system(paste0('export LD_LIBRARY_PATH=', libR, ':$LD_LIBRARY_PATH'))
 
     .julia$bin_dir <-
         system("julia -E 'println(JULIA_HOME)'", intern = TRUE)[1]
@@ -14,6 +28,8 @@ julia_setup <- function() {
     .julia$cppargs <- paste0("-I ", .julia$include_dir, " -DJULIA_ENABLE_THREADING=1")
 
     .julia$VERSION <- system("julia -E 'println(VERSION)'", intern = TRUE)[1]
+
+    message(paste0("Julia version ", .julia$VERSION, " found."))
 
     if (.julia$VERSION < "0.6.0") {
         .julia$init <- inline::cfunction(
@@ -42,10 +58,12 @@ julia_setup <- function() {
 
     .julia$cmd <- inline::cfunction(
         sig = c(cmd = "character"),
-        body = "jl_eval_string(CHAR(STRING_ELT(cmd, 0))); return R_NilValue;",
+        body = "jl_eval_string(CHAR(STRING_ELT(cmd, 0)));
+        if (jl_exception_occurred()) printf(\"%s \", jl_typeof_str(jl_exception_occurred()));
+        return R_NilValue;",
         includes = "#include <julia.h>",
         cppargs = .julia$cppargs
-    )
+        )
 
     .julia$source <- function(file_name) {
         .julia$cmd(readr::read_file(file_name))
@@ -70,17 +88,17 @@ julia_setup <- function() {
 
     reg.finalizer(.julia, function(e){message("Julia exit."); .julia$cmd("exit()")}, onexit = TRUE)
 
-    .julia$cmd("gc_enable(false)")
+    # .julia$cmd("gc_enable(false)")
 
     # .julia$cmd("Pkg.update()")
 
-    # .julia$cmd(paste0('ENV["R_HOME"] = "', R.home(), '"'))
+    .julia$cmd(paste0('ENV["R_HOME"] = "', R.home(), '"'))
 
     .julia$using1("RCall")
 
     .julia$cmd("function transfer_list(x) rcopy(RObject(Ptr{RCall.VecSxp}(x))) end")
-    # .julia$cmd("function wrap(f, x) xx = transfer_list(x); println(f(xx...)) end")
-    .julia$cmd("function wrap_all(f, x) xx = transfer_list(x); Int64(RObject(f(xx...)).p) end")
+    # .julia$cmd("function wrap(f, x) xx = transfer_list(x); f(xx...) end")
+    .julia$cmd("function wrap_all(f, x) xx = transfer_list(x); UInt64(RObject(f(xx...)).p) end")
 
     # .julia$wrap <- inline::cfunction(
     #     sig = c(func_name = "character", arg = "SEXP"),
@@ -99,11 +117,19 @@ julia_setup <- function() {
         body = '
         jl_function_t *wrap = (jl_function_t*)(jl_eval_string("wrap_all"));
         jl_value_t *func = jl_eval_string(CHAR(STRING_ELT(func_name, 0)));
-        jl_value_t *arg1 = jl_box_int64((uintptr_t)(arg));
-        SEXP out = PROTECT((SEXP)jl_unbox_int64(jl_call2(wrap, func, arg1)));
+        jl_value_t *arg1 = jl_box_uint64((uintptr_t)(arg));
+        SEXP out = PROTECT((SEXP)jl_unbox_uint64(jl_call2(wrap, func, arg1)));
         UNPROTECT(1);
         return out;',
         includes = "#include <julia.h>",
         cppargs = .julia$cppargs
-        )
+    )
+
+    .julia$cmd("function eval_string(x) eval(parse(x)) end")
+
+    .julia$eval_string <- function(cmd) .julia$wrap_all("eval_string", list(cmd))
+
+    .julia$call <- function(func_name, ...) .julia$wrap_all(func_name, list(...))
+
+    .julia
 }
