@@ -162,4 +162,5 @@ IPOPT <- function(x,
 setup <- function() {
     julia_setup()
     .julia$source(system.file("julia/Ipopt2.jl", package = "ipoptjlr"))
+    stopifnot(.julia$exists("IPOPT"))
 }
