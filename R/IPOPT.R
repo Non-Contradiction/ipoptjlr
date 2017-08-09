@@ -147,8 +147,8 @@ IPOPT <- function(x,
                   eval_grad_f,
                   jac_g1, jac_g2,
                   h1, h2) {
-    .julia$call("IPOPT", x, x_L, x_U, g_L, g_U, eval_f, eval_g, eval_grad_f,
-                jac_g1, jac_g2, h1, h2)
+    .Ipopt$julia$call("IPOPT", x, x_L, x_U, g_L, g_U, eval_f, eval_g, eval_grad_f,
+                      jac_g1, jac_g2, h1, h2)
 }
 
 #' Do initial setup for the ipoptjlr package.
@@ -160,7 +160,7 @@ IPOPT <- function(x,
 #'
 #' @export
 setup <- function() {
-    julia_setup()
-    .julia$source(system.file("julia/Ipopt2.jl", package = "ipoptjlr"))
-    stopifnot(.julia$exists("IPOPT"))
+    .Ipopt$julia <- JuliaCall::julia_setup()
+    .Ipopt$julia$source(system.file("julia/Ipopt2.jl", package = "ipoptjlr"))
+    stopifnot(.Ipopt$julia$exists("IPOPT"))
 }
