@@ -1,7 +1,3 @@
-if Pkg.installed("Ipopt") == nothing Pkg.add("Ipopt") end
-
-using Ipopt
-
 function xy(f)
     function ff(x, y)
         y .= f(x)

@@ -161,6 +161,8 @@ IPOPT <- function(x,
 #' @export
 setup <- function() {
     .Ipopt$julia <- JuliaCall::julia_setup()
+    .Ipopt$julia$install_package_if_needed("Ipopt")
+    .Ipopt$julia$using("Ipopt")
     .Ipopt$julia$source(system.file("julia/Ipopt2.jl", package = "ipoptjlr"))
     stopifnot(.Ipopt$julia$exists("IPOPT"))
 }
