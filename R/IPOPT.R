@@ -155,6 +155,7 @@ IPOPT <- function(x,
 #'
 #' \code{setup} does the initial setup for the ipoptjlr package.
 #'
+#' @param startup_safe if you would like to use setup in your .Rprofile, you'd better set startup_safe to TRUE.
 #' @examples
 #' setup()
 #'
