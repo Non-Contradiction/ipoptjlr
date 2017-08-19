@@ -4,10 +4,7 @@
 \alias{setup}
 \title{Do initial setup for the ipoptjlr package.}
 \usage{
-setup(startup_safe = FALSE)
-}
-\arguments{
-\item{startup_safe}{if you would like to use setup in your .Rprofile, you'd better set startup_safe to TRUE.}
+setup()
 }
 \description{
 \code{setup} does the initial setup for the ipoptjlr package.

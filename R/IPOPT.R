@@ -155,14 +155,13 @@ IPOPT <- function(x,
 #'
 #' \code{setup} does the initial setup for the ipoptjlr package.
 #'
-#' @param startup_safe if you would like to use setup in your .Rprofile, you'd better set startup_safe to TRUE.
 #' @examples
 #' setup()
 #'
 #' @export
-setup <- function(startup_safe = FALSE) {
-    .Ipopt$julia <- JuliaCall::julia_setup(startup_safe = startup_safe)
+setup <- function() {
+    .Ipopt$julia <- JuliaCall::julia_setup()
     .Ipopt$julia$install_package_if_needed("Ipopt")
-    .Ipopt$julia$using("Ipopt", startup_safe = startup_safe)
+    .Ipopt$julia$using("Ipopt")
     .Ipopt$julia$source(system.file("julia/Ipopt2.jl", package = "ipoptjlr"))
 }
