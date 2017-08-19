@@ -74,6 +74,6 @@ script:
 - Rscript -e 'remotes::install_github("Non-Contradiction/ipoptjlr")'
 #- julia -e 'Pkg.add("RCall")'
 #- julia -e 'using RCall'
-- julia -e 'Base.compilecache("RCall")'
-- julia -e 'Base.compilecache("Ipopt")'
+- julia -e 'using RCall'
+- julia -e 'using Ipopt'
 - Rscript -e "library(TestWithRStudio); stopifnot(check_in_rstudio('library(ipoptjlr); setup(startup_safe = TRUE)', 60))"
