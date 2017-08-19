@@ -160,7 +160,7 @@ IPOPT <- function(x,
 #'
 #' @export
 setup <- function(startup_safe = FALSE) {
-    .Ipopt$julia <- JuliaCall::julia_setup()
+    .Ipopt$julia <- JuliaCall::julia_setup(startup_safe = startup_safe)
     .Ipopt$julia$install_package_if_needed("Ipopt")
     .Ipopt$julia$using("Ipopt", startup_safe = startup_safe)
     .Ipopt$julia$source(system.file("julia/Ipopt2.jl", package = "ipoptjlr"))
