@@ -50,6 +50,9 @@ before_install:
   - Rscript -e 'remotes::install_github("Non-Contradiction/JuliaCall")'
   - Rscript -e 'install.packages("testthat", repos="http://cran.rstudio.com/")'
 
+  - julia -e 'Pkg.add("Ipopt")'
+  - julia -e 'using Ipopt'
+
   #- Rscript -e 'sessionInfo()'
   #- julia -e 'versioninfo()'
   #- julia -e 'Pkg.add("RCall")'
