@@ -128,7 +128,12 @@ h2 <- function(x, obj_factor, lambda){
 
 library(ipoptjlr)
 
-setup()
+ipopt_setup()
+#> Julia version 0.6.0 found.
+#> Julia initiation...
+#> Finish Julia initiation.
+#> Loading setup script for JuliaCall...
+#> Finish loading setup script for JuliaCall.
 
 IPOPT(x, x_L, x_U, g_L, g_U, eval_f, eval_g, eval_grad_f, jac_g1, jac_g2, h1, h2)
 #> $status
