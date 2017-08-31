@@ -94,7 +94,7 @@ test_script:
 - Rscript -e "remotes::install_github(\"Non-Contradiction/ipoptjlr\")"
 #- julia -e 'Pkg.add("RCall")'
 #- julia -e 'using RCall'
-- Rscript -e "library(TestWithRStudio); stopifnot(check_in_rstudio('library(ipoptjlr); setup()', 60))"
+- Rscript -e "library(TestWithRStudio); stopifnot(check_in_rstudio('library(ipoptjlr); ipopt_setup()', 60))"
 
 on_finish:
 # uncomment to enable RDP to Appveyor

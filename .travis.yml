@@ -102,4 +102,4 @@ script:
 #- julia -e 'using RCall'
 #- julia -e 'Pkg.build("Ipopt")'
 #- julia -e 'using Ipopt'
-- Rscript -e "library(TestWithRStudio); stopifnot(check_in_rstudio('library(ipoptjlr); setup()', 60))"
+- Rscript -e "library(TestWithRStudio); stopifnot(check_in_rstudio('library(ipoptjlr); ipopt_setup()', 60))"
