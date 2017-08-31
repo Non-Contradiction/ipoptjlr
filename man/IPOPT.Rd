@@ -38,6 +38,7 @@ The return value will be a list which contains three components:
 \code{IPOPT} returns the solution to the optimization problem found by Ipopt solver.
 }
 \examples{
+\dontrun{
 # HS071
 # min x1 * x4 * (x1 + x2 + x3) + x3
 # st  x1 * x2 * x3 * x4 >= 25
@@ -150,7 +151,9 @@ h2 <- function(x, obj_factor, lambda){
     values
 }
 
-setup()
+ipopt_setup()
 
 IPOPT(x, x_L, x_U, g_L, g_U, eval_f, eval_g, eval_grad_f, jac_g1, jac_g2, h1, h2)
+}
+
 }

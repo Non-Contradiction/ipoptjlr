@@ -21,6 +21,7 @@
 #'   x: the best set of parameters found.
 #'
 #' @examples
+#' \dontrun{
 #' # HS071
 #' # min x1 * x4 * (x1 + x2 + x3) + x3
 #' # st  x1 * x2 * x3 * x4 >= 25
@@ -133,9 +134,11 @@
 #'     values
 #' }
 #'
-#' setup()
+#' ipopt_setup()
 #'
 #' IPOPT(x, x_L, x_U, g_L, g_U, eval_f, eval_g, eval_grad_f, jac_g1, jac_g2, h1, h2)
+#' }
+#'
 #' @export
 IPOPT <- function(x,
                   x_L,
@@ -156,12 +159,14 @@ IPOPT <- function(x,
 #' \code{setup} does the initial setup for the ipoptjlr package.
 #'
 #' @examples
-#' setup()
+#' \dontrun{
+#' ipopt_setup()
+#' }
 #'
 #' @export
-setup <- function() {
+ipopt_setup <- function() {
     .Ipopt$julia <- JuliaCall::julia_setup()
     .Ipopt$julia$install_package_if_needed("Ipopt")
-    .Ipopt$julia$using("Ipopt")
+    .Ipopt$julia$library("Ipopt")
     .Ipopt$julia$source(system.file("julia/Ipopt2.jl", package = "ipoptjlr"))
 }
