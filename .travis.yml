@@ -5,6 +5,9 @@ os:
 
 osx_image: xcode8.1
 
+env:
+  - NOT_CRAN="true"
+
 julia:
   - 0.5
   - 0.6
