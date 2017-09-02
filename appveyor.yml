@@ -74,9 +74,10 @@ build_script:
 #  - C:\projects\julia\bin\julia -e "versioninfo();
 #      Pkg.clone(pwd(), \"RCall\"); Pkg.build(\"RCall\")"
 - Rscript -e "sessionInfo()"
-- Rscript -e "install.packages(\"remotes\", repos=\"http://cran.rstudio.com/\")"
-- Rscript -e "remotes::install_github(\"Non-Contradiction/JuliaCall\")"
+# - Rscript -e "install.packages(\"remotes\", repos=\"http://cran.rstudio.com/\")"
+# - Rscript -e "remotes::install_github(\"Non-Contradiction/JuliaCall\")"
 - Rscript -e "install.packages(\"testthat\", repos=\"http://cran.rstudio.com/\")"
+- Rscript -e "install.packages(\"JuliaCall\", repos=\"http://cran.rstudio.com/\")"
 
 - julia -e "pkg = :Ipopt; Pkg.add(string(pkg))"
 - julia -e "using Ipopt"

@@ -15,7 +15,6 @@ BugReports: https://github.com/Non-Contradiction/ipoptjlr/issues
 Encoding: UTF-8
 LazyData: true
 Suggests: testthat
-Remotes: Non-Contradiction/JuliaCall
 SystemRequirements: Julia >= 0.5.0, RCall.jl, Ipopt.jl
 RoxygenNote: 6.0.1
 Imports: JuliaCall
