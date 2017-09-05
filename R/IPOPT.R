@@ -154,9 +154,11 @@ IPOPT <- function(x,
                       jac_g1, jac_g2, h1, h2)
 }
 
-#' Do initial setup for the ipoptjlr package.
+#' Do initial setup for ipoptjlr package.
 #'
-#' \code{setup} does the initial setup for the ipoptjlr package.
+#' \code{ipopt_setup} does the initial setup for ipoptjlr package.
+#'
+#' @param ... arguments passed to \code{JuliaCall::julia_setup}.
 #'
 #' @examples
 #' \dontrun{
@@ -164,8 +166,8 @@ IPOPT <- function(x,
 #' }
 #'
 #' @export
-ipopt_setup <- function() {
-    .Ipopt$julia <- JuliaCall::julia_setup()
+ipopt_setup <- function(...) {
+    .Ipopt$julia <- JuliaCall::julia_setup(...)
     .Ipopt$julia$install_package_if_needed("Ipopt")
     .Ipopt$julia$library("Ipopt")
     .Ipopt$julia$source(system.file("julia/Ipopt2.jl", package = "ipoptjlr"))

@@ -2,12 +2,15 @@
 % Please edit documentation in R/IPOPT.R
 \name{ipopt_setup}
 \alias{ipopt_setup}
-\title{Do initial setup for the ipoptjlr package.}
+\title{Do initial setup for ipoptjlr package.}
 \usage{
-ipopt_setup()
+ipopt_setup(...)
+}
+\arguments{
+\item{...}{arguments passed to \code{JuliaCall::julia_setup}.}
 }
 \description{
-\code{setup} does the initial setup for the ipoptjlr package.
+\code{ipopt_setup} does the initial setup for ipoptjlr package.
 }
 \examples{
 \dontrun{

@@ -8,12 +8,6 @@ context("Optimization Problem HS071")
 # Start at (1,5,5,1)
 # End at (1.000..., 4.743..., 3.821..., 1.379...)
 
-check_ipopt <- function() {
-    if (!JuliaCall::julia_check()) {
-        skip("Julia not available")
-    }
-}
-
 
 x <- c(1.0, 5.0, 5.0, 1.0)
 x_L <- c(1.0, 1.0, 1.0, 1.0)
@@ -121,7 +115,6 @@ h2 <- function(x, obj_factor, lambda){
 
 test_that("run the HS071 examples", {
     skip_on_cran()
-    check_ipopt()
 
     ipopt_setup()
     r <- IPOPT(x, x_L, x_U, g_L, g_U, eval_f, eval_g, eval_grad_f, jac_g1, jac_g2, h1, h2)
