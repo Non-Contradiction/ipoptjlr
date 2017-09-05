@@ -1,7 +1,8 @@
 Package: ipoptjlr
 Type: Package
 Title: Interior Point Optimizer in R using 'Ipopt.jl'
-Version: 0.1.0
+Version: 0.1.0.9000
+Date: 2017-09-05
 Authors@R: person("Changcheng Li", email = "cxl508@psu.edu",
     role = c("aut", "cre"))
 Description: Package ipoptjlr is an R interface to the Ipopt nonlinear solver.
