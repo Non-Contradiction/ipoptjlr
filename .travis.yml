@@ -92,15 +92,15 @@ script:
 - R CMD build .
 - R CMD check *tar.gz
 
-- Rscript -e 'install.packages("remotes", repos="http://cran.rstudio.com/")'
-- Rscript -e 'remotes::install_github("Non-Contradiction/TestWithRStudio")'
-- Rscript -e "library(TestWithRStudio); check_rstudio()"
-- Rscript -e "library(TestWithRStudio); stopifnot(check_in_rstudio('1'))"
-- Rscript -e "library(TestWithRStudio); stopifnot(!check_in_rstudio('q()'))"
+#- Rscript -e 'install.packages("remotes", repos="http://cran.rstudio.com/")'
+#- Rscript -e 'remotes::install_github("Non-Contradiction/TestWithRStudio")'
+#- Rscript -e "library(TestWithRStudio); check_rstudio()"
+#- Rscript -e "library(TestWithRStudio); stopifnot(check_in_rstudio('1'))"
+#- Rscript -e "library(TestWithRStudio); stopifnot(!check_in_rstudio('q()'))"
 
-- Rscript -e 'remotes::install_github("Non-Contradiction/ipoptjlr")'
+#- Rscript -e 'remotes::install_github("Non-Contradiction/ipoptjlr")'
 #- julia -e 'Pkg.add("RCall")'
 #- julia -e 'using RCall'
 #- julia -e 'Pkg.build("Ipopt")'
 #- julia -e 'using Ipopt'
-- Rscript -e "library(TestWithRStudio); stopifnot(check_in_rstudio('library(ipoptjlr); ipopt_setup()', 60))"
+#- Rscript -e "library(TestWithRStudio); stopifnot(check_in_rstudio('library(ipoptjlr); ipopt_setup()', 60))"
