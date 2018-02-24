@@ -120,7 +120,7 @@ test_that("run the HS071 examples", {
     r <- IPOPT(x, x_L, x_U, g_L, g_U, eval_f, eval_g, eval_grad_f, jac_g1, jac_g2, h1, h2)
 
     expect_named(r, c("status", "value", "x"), ignore.order = TRUE)
-    expect_equal(r$status, "Solve_Succedded")
+    expect_equal(r$status, as.name("Solve_Succeeded"))
     expect_equal(r$x, c(1.000, 4.743, 3.821, 1.379), tolerance = 0.001)
 })
 
