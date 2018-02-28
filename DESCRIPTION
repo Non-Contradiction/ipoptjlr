@@ -1,21 +1,21 @@
 Package: ipoptjlr
 Type: Package
 Title: Interior Point Optimizer in R using 'Ipopt.jl'
-Version: 0.1.0.9000
-Date: 2017-09-05
+Version: 0.1.1.9000
+Date: 2018-2-27
 Authors@R: person("Changcheng Li", email = "cxl508@psu.edu",
     role = c("aut", "cre"))
 Description: Package ipoptjlr is an R interface to the Ipopt nonlinear solver.
     It provides a simple high-level wrapper for
     'Julia' package 'Ipopt.jl' (see <https://github.com/JuliaOpt/Ipopt.jl> for
     more information).
-Depends: R (>= 3.2.0)
+Depends: R (>= 3.4.0)
 License: MIT + file LICENSE
 URL: https://github.com/Non-Contradiction/ipoptjlr
 BugReports: https://github.com/Non-Contradiction/ipoptjlr/issues
 Encoding: UTF-8
 LazyData: true
 Suggests: testthat
-SystemRequirements: Julia >= 0.6.0, Ipopt.jl
+SystemRequirements: Julia (>= 0.6.0), Ipopt.jl
 RoxygenNote: 6.0.1
-Imports: JuliaCall
+Imports: JuliaCall (>= 0.12.1)
