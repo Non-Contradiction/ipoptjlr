@@ -1,6 +1,5 @@
 language: r
 cache: packages
-fortran: false
 os:
   - linux
   - osx
